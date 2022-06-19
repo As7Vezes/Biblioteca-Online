@@ -1,45 +1,58 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import axio from 'axios'
+import { useState, useEffect } from 'react'
+import { api } from '../services/api'
+import { Notes } from './components/showProducts'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+  const [title, setTitle] = useState('')
+  const [quant, setQuant] = useState('')
+  const [allProducts, setAllProducts] = useState([])
+
+useEffect(() => {
+  async function getAllProducts() {
+    const response = api.get('/products',)
+
+    setAllProducts((await response).data)
+  }
+
+  getAllProducts()
+}, [])
+    
+async function hadleSubmit(e: { preventDefault: () => void }){
+  e.preventDefault()
+
+  const response = await api.post('/products', {
+    title,
+    quant,
+    repor: false
+  })
+
+  setTitle('')
+  setQuant('')
+
+  setAllProducts([...allProducts, response.data])
 }
 
-export default App
+  return(
+    <>
+      <form onSubmit={hadleSubmit}>
+        <input  value={title} onChange={(e) => setTitle(e.target.value)}/>
+        <input  value={quant} onChange={(e) => setQuant(e.target.value)}/>
+
+        <button type='submit'>Enviar</button>
+      </form>
+
+      <div>
+        <ul>
+          {allProducts.map(data => (
+            <Notes data={data}/>
+          ))}
+        </ul>
+      </div>
+    </>
+  ) 
+
+}
+
+
