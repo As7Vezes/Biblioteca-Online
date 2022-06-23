@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ProductDataSchema = new mongoose.Schema({
     title: String,
-    quant: String,
+    quant: Number,
     repor: Boolean
 })
 

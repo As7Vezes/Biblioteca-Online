@@ -22,5 +22,21 @@ export default {
         })
         
         return res.json(productCreat)
+    },
+
+    async update(req,res){
+
+        const { id } = req.params
+        const { valorMenos } = req.body
+
+        const product = await products.findOne({ _id: id })
+
+        if(product){
+            product.quant = product.quant - Number(valorMenos)
+        }
+
+        await product.save()
+
+        return res.json(product.quant)
     }
 }
