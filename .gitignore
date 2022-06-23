@@ -1,4 +1,6 @@
 .env*
 
+db.ts*
+
 
 node_modules
