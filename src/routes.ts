@@ -1,11 +1,12 @@
 import express from 'express'
 export const routes = express.Router()
 
-import ProductController from './controllers/ProductController'
+import bibliController from './controllers/BibliController'
 
 // Rota Produtos
-routes.get('/products', ProductController.read)
-routes.post('/products', ProductController.create)
-routes.post('/updateProducts/:id',ProductController.update)
+routes.get('/biblioteca', bibliController.read)
+routes.post('/biblioteca', bibliController.create)
+routes.post('/updatBiblioteca/:id',bibliController.update)
+routes.delete('/biblioteca/:id', bibliController.delete)
 
-
+ 
