@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
-const dbConfig = 'mongodb+srv://user:user@cluster0.6hegt.mongodb.net/biblioteca'
+dotenv.config()
+
+const dbConfig = process.env.REACT_APP_DB_CONFIG_DATA
 
 export const connection = mongoose.connect(dbConfig)

@@ -1,15 +1,9 @@
 import biblioteca from '../models/BibliData'
 
 export default {
-    
-    async read(req, res){
-        const bibliList = await biblioteca.find()
-
-        return res.json(bibliList)
-    },
 
     async create(req,res){
-        const { title, editora, autores } = req.body
+        const { title, editora, autores, url } = req.body
 
         if(!title || !autores){
             return res.status(400).json({ error: 'É necessário um titulo/foto'})
@@ -18,10 +12,17 @@ export default {
         const bibliCreat = await biblioteca.create({
             title,
             editora,
-            autores
+            autores,
+            url
         })
         
         return res.json(bibliCreat)
+    },
+    
+    async read(req, res){
+        const bibliList = await biblioteca.find()
+
+        return res.json(bibliList)
     },
 
     async update(req,res){
