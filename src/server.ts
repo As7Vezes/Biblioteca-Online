@@ -13,5 +13,5 @@ app.use(routes)
 app.use(express.json())
 
 app.listen(3434, () => {
-    console.log('ainda funcionando')
+    console.log('Ainda está funcionando Man.')
 })

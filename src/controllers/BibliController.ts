@@ -1,36 +1,46 @@
 import biblioteca from '../models/BibliData'
+import { Request, Response } from 'express'
+
+// interface typeModel {
+//     title: string,
+//     editora: string,
+//     autor: string,
+//     image: string       
+// }
 
 export default {
 
-    async create(req,res){
-        const { title, editora, autores, url } = req.body
+    
 
-        if(!title || !autores){
+    async create(req: Request, res:Response){
+        const { title, editora, autor, image } = req.body
+
+        if(!title || !autor){
             return res.status(400).json({ error: 'É necessário um titulo/foto'})
         }
 
         const bibliCreat = await biblioteca.create({
             title,
             editora,
-            autores,
-            url
+            autor,
+            image
         })
         
         return res.json(bibliCreat)
     },
     
-    async read(req, res){
+    async read(req: Request, res:Response){
         const bibliList = await biblioteca.find()
 
         return res.json(bibliList)
     },
 
-    async update(req,res){
+    async update(req: Request, res:Response){
 
         const { id } = req.params
-        const { title, editora, autores } = req.body
+        const { title, editora, autor, image } = req.body
 
-        const bibli = await biblioteca.findOne({ _id: id })
+        const bibli = await biblioteca.findById({ _id: id })
 
         if(title){
             bibli.title = title
@@ -40,8 +50,11 @@ export default {
             bibli.editora = editora
         }
 
-        if(autores){
-            bibli.autores = autores
+        if(autor){
+            bibli.autor = autor
+        }
+        if(image){
+            bibli.image = image
         }
 
         await bibli.save()
@@ -49,7 +62,7 @@ export default {
         return res.json(bibli)
     },
 
-    async delete(req,res){
+    async delete(req: Request, res:Response){
         const { id } = req.params
 
         const bibliDeleted = await biblioteca.findByIdAndDelete({ _id: id})
