@@ -1,19 +1,10 @@
 import biblioteca from '../models/BibliData'
 import { Request, Response } from 'express'
 
-// interface typeModel {
-//     title: string,
-//     editora: string,
-//     autor: string,
-//     image: string       
-// }
-
 export default {
 
-    
-
     async create(req: Request, res:Response){
-        const { title, editora, autor, image } = req.body
+        const { title, editora, autor } = req.body
 
         if(!title || !autor){
             return res.status(400).json({ error: 'É necessário um titulo/foto'})
@@ -23,7 +14,7 @@ export default {
             title,
             editora,
             autor,
-            image
+            image: req.file.filename
         })
         
         return res.json(bibliCreat)
@@ -32,7 +23,10 @@ export default {
     async read(req: Request, res:Response){
         const bibliList = await biblioteca.find()
 
-        return res.json(bibliList)
+        return res.json({
+            bibliList,
+            url: 'http://localhost:3434/files/'
+        })
     },
 
     async update(req: Request, res:Response){
